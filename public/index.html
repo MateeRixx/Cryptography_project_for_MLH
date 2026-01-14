@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Digital Signing Tool</title>
+</head>
+<body>
+
+<h2>Digital Signing using RSA</h2>
+
+<textarea id="message" rows="5" cols="40" placeholder="Enter message"></textarea>
+<br><br>
+
+<button onclick="signMessage()">Sign</button>
+<button onclick="verifyMessage()">Verify</button>
+
+<p><strong>Signature:</strong></p>
+<textarea id="signature" rows="4" cols="40"></textarea>
+
+<p id="result"></p>
+
+<script>
+async function signMessage() {
+  const message = document.getElementById("message").value;
+
+  const res = await fetch("/sign", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message })
+  });
+
+  const data = await res.json();
+  document.getElementById("signature").value = data.signature;
+}
+
+async function verifyMessage() {
+  const message = document.getElementById("message").value;
+  const signature = document.getElementById("signature").value;
+
+  const res = await fetch("/verify", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message, signature })
+  });
+
+  const data = await res.json();
+  document.getElementById("result").innerText =
+    data.valid ? "✅ Signature is VALID" : "❌ Signature is INVALID";
+}
+</script>
+
+</body>
+</html>

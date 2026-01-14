@@ -22,7 +22,7 @@
 async function signMessage() {
   const message = document.getElementById("message").value;
 
-  const res = await fetch("/sign", {
+  const res = await fetch("/api/sign", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message })
@@ -36,7 +36,7 @@ async function verifyMessage() {
   const message = document.getElementById("message").value;
   const signature = document.getElementById("signature").value;
 
-  const res = await fetch("/verify", {
+  const res = await fetch("/api/verify", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message, signature })
